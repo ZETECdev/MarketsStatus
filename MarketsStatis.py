@@ -167,4 +167,7 @@ async def markets(ctx):
         await bot.send_message(ctx.chat.id, markets_msg)
     except Exception as e:
         await bot.send_message(ctx.chat.id, '⚠️ ERROR: ' + str(e))
+
+
+bot.infinity_polling()
         
