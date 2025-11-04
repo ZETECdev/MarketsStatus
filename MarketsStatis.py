@@ -118,7 +118,10 @@ async def markets_status(lang: str = 'en'):
             next_date = next_business_date(now_local.date(), market['cc'])
             next_open_dt = first_session_open_on(next_date)
             delta = next_open_dt - now_local
-            time_left_str = f"{delta.days}D, {delta.seconds // 3600}H, {(delta.seconds // 60) % 60}Min"
+            days = delta.days
+            hours = delta.seconds // 3600
+            minutes = (delta.seconds // 60) % 60
+            time_left_str = f"{days}D, {hours}H, {minutes}Min" if days > 0 else f"{hours}H, {minutes}Min"
         else:
             in_session = False
             for (o_dt, c_dt) in today_sessions:
@@ -126,9 +129,10 @@ async def markets_status(lang: str = 'en'):
                     in_session = True
                     status = 'open'
                     delta = c_dt - now_local
+                    days = delta.days
                     hours = delta.seconds // 3600
                     minutes = (delta.seconds // 60) % 60
-                    time_left_str = f"{hours}H, {minutes}Min"
+                    time_left_str = f"{days}D, {hours}H, {minutes}Min" if days > 0 else f"{hours}H, {minutes}Min"
                     break
 
             if not in_session:
