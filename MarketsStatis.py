@@ -167,11 +167,11 @@ async def markets_status(lang: str = 'en'):
 async def markets(ctx):
     lang = 'es' if ctx.from_user.language_code == 'es' else 'en'
     try:
-        markets_msg = await markets_status(lang)
+        markets_msg = await asyncio.to_thread(markets_status, lang)
         await bot.send_message(ctx.chat.id, markets_msg)
     except Exception as e:
         await bot.send_message(ctx.chat.id, '⚠️ ERROR: ' + str(e))
 
 
-bot.infinity_polling()
+bot.infinity_polling(run_async=True)
         
